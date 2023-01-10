@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+     <meta charset="UTF-8">
+    <title>信息列表</title>
+</head>
+<body>
+    <h1>todolist</h1>
+     <h3>新建 (<a href = "{{ url_for('newsproject') }}">增加项目</a>)</h3>
+     <h3>全部设为待办？ (<a href = "{{ url_for('modifyprojectUF') }}">是</a>)</h3>
+     <h3>全部设为已办？ (<a href = "{{ url_for('modifyprojectF') }}">是</a>)</h3>
+     <h3>删除全部？ (<a href = "{{ url_for('deleteprojectAll') }}">是</a>)</h3>
+     <h3>删除已办？ (<a href = "{{ url_for('deleteprojectAllF') }}">是</a>)</h3>
+     <h3>删除待办？ (<a href = "{{ url_for('deleteprojectAllUF') }}">是</a>)</h3>
+    <table border="1">
+        <thead>
+          <tr>
+            <th>标题</th>
+            <th>内容</th>
+            <th>完成状态</th>
+            <th>添加时间</th>
+            <th>结束时间</th>
+              <th>操作</th>
+
+          </tr>
+        </thead>
+        <tbody>
+         {% for project in projects %}
+          <tr>
+            <td>{{ project.title }}</td>
+            <td>{{ project.neiRong }} </td>
+            <td> {{ project.finishOrNot }} </td>
+            <td>{{ project.startTime }} </td>
+            <td> {{ project.endTime }} </td>
+              <td><a href = "{{ url_for('modifyproject', pjid=project.id) }}">修改</a>&nbsp;&nbsp;<a href = "{{ url_for('deleteproject', pjid=project.id) }}">删除</a></td>
+
+          </tr>
+         {% endfor %}
+
+        </tbody>
+    </table>
+</body>
+</html>

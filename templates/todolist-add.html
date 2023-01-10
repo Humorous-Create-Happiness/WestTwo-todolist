@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>信息</title>
+</head>
+<body>
+    <h1>信息添加界面</h1>
+     <form action = "{{ request.path }}" method = "post">
+        <p><label for="title">标题：</label><input type="text" name="title"></p>
+        <p><label for="neiRong">内容：</label><input type="text" name="neiRong"></p>
+        <p><label for="finishOrNot">完成状态：</label><input type="text" name="finishOrNot"></p>
+        <p><label for="startTime">添加时间</label><input type="number" name="startTime"></p>
+        <p><label for="endTime">结束时间</label><input type="number" name="endTime"></p>
+        <input type="submit" name="" value="添加">
+    </form>
+</body>
+</html>
