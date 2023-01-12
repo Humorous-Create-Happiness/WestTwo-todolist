@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask,redirect,url_for,request,render_template
+from flask import Flask,redirect,url_for,request,render_template,current_app
 import flask
 
 app = Flask(__name__)
@@ -99,27 +99,55 @@ def modifyprojectUF():
 #所有
 @app.route('/check-allproject/')
 def AllProject():
-   return render_template('todolist-showInfo.html', projects = Project.query.all() )
+    page1 = request.args.get('page', 1, type=int)  # 获取当前页数
+    # current_app.config['PER_PAGE_COUNT']是在设置中定义的每页页数
+    pagination1 = Project.query.all.paginate(page1,per_page=current_app.config['PER_PAGE_COUNT'], error_out=False)
+    conditional_query = pagination1.items  # 每页的数据
+
+    return render_template('todolist-showInfo.html', conditional_query=conditional_query, pagination1=pagination1)
 
 #所有已完成
 @app.route('/check-allproject-finished/')
 def AllProjectfinished():
-   return render_template('todolist-showInfo.html', projects = Project.query.filter_by(finishOrNot='Yes').all() )
+    page1 = request.args.get('page', 1, type=int)  # 获取当前页数
+    # current_app.config['PER_PAGE_COUNT']是在设置中定义的每页页数
+    pagination1 = Project.query.filter_by(finishOrNot='Yes').all.paginate(page1,
+                                                                     per_page=current_app.config['PER_PAGE_COUNT'],
+                                                                     error_out=False)
+    conditional_query = pagination1.items  # 每页的数据
+
+    return render_template('todolist-showInfo.html', conditional_query=conditional_query, pagination1=pagination1)
+
 
 #所有未完成
 @app.route('/check-allproject-unfinished/')
 def AllProjectUnfinished():
-   return render_template('todolist-showInfo.html', projects = Project.query.filter_by(finishOrNot='No').all() )
+   page1 = request.args.get('page', 1, type=int)  # 获取当前页数
+# current_app.config['PER_PAGE_COUNT']是在设置中定义的每页页数
+   pagination1 = Project.query.filter_by(finishOrNot='No').all.paginate(page1, per_page=current_app.config['PER_PAGE_COUNT'],
+                                                    error_out=False)
+   conditional_query = pagination1.items  # 每页的数据
+
+   return render_template('todolist-showInfo.html', conditional_query=conditional_query, pagination1=pagination1)
+
 
 #id查看
 @app.route('/check-oneproject-id/<int:number>/')
 def OneProjecti(number):
-   return render_template('todolist-showInfo.html', projects = Project.query.filter_by(id=number).all() )
+   return render_template('todolist-showInfo.html', projects = Project.query.filter_by(id=number)() )
 
 #关键字查看
 @app.route('/check-oneproject-title/<message>/')
 def OneProjectt(message):
-   return render_template('todolist-showInfo.html', projects = Project.query.filter_by(title=message).all() )
+    page1 = request.args.get('page', 1, type=int)  # 获取当前页数
+    # current_app.config['PER_PAGE_COUNT']是在设置中定义的每页页数
+    pagination1 = Project.query.filter_by(title=message).all.paginate(page1,
+                                                                     per_page=current_app.config['PER_PAGE_COUNT'],
+                                                                     error_out=False)
+    conditional_query = pagination1.items  # 每页的数据
+
+    return render_template('todolist-showInfo.html', conditional_query=conditional_query, pagination1=pagination1)
+
 
 
 
