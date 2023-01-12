@@ -5,6 +5,7 @@
     <title>信息列表</title>
 </head>
 <body>
+{% import "_macros.html" as macros %}
     <h1>todolist</h1>
      <h3>新建 (<a href = "{{ url_for('newsproject') }}">增加项目</a>)</h3>
      <h3>全部设为待办？ (<a href = "{{ url_for('modifyprojectUF') }}">是</a>)</h3>
@@ -25,8 +26,11 @@
           </tr>
         </thead>
         <tbody>
-         {% for project in projects %}
-          <tr>
+        {% if pagination1 %}
+         <div class="project-pagination">
+          {{ macros.pagination_widget(pagination1, '.shop') }}
+          {% for project in projects %}
+           <tr>
             <td>{{ project.title }}</td>
             <td>{{ project.neiRong }} </td>
             <td> {{ project.finishOrNot }} </td>
@@ -34,7 +38,8 @@
             <td> {{ project.endTime }} </td>
               <td><a href = "{{ url_for('modifyproject', pjid=project.id) }}">修改</a>&nbsp;&nbsp;<a href = "{{ url_for('deleteproject', pjid=project.id) }}">删除</a></td>
 
-          </tr>
+           </tr>
+         </div>
          {% endfor %}
 
         </tbody>
